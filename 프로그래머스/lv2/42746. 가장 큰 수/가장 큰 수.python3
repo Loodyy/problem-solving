@@ -1,0 +1,7 @@
+def solution(numbers):
+    temp = list(map(str, numbers))
+    temp.sort(key=lambda x: x*3 , reverse=True)
+    answer = ''
+    for x in temp:
+        answer += x
+    return str(int(answer))
