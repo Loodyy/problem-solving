@@ -1,4 +1,3 @@
-import time
 from collections import deque
 import sys
 input = sys.stdin.readline
@@ -36,7 +35,7 @@ def solve():
             if 0 in j:
                 return -1
             cnt = max(cnt, max(j))
-    return cnt - 1  
+    return cnt - 1  # 요소의 시작이 1이라 하루 지나면 max = 2 -> day = cnt - 1 
 
 print(solve())
     
