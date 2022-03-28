@@ -1,71 +1,44 @@
 n, m = map(int, input().split())
-
 arr = [list(map(int, input().split())) for _ in range(n)]
 
-def a():
-    result = []
-    for i in range(n-1):
-        for j in range(m-1):
-            result.append(arr[i][j] + arr[i][j+1] + arr[i+1][j] + arr[i+1][j+1])
-    return max(result)
+visited = [[False for _ in range(m)] for _ in range(n)]
 
-def b():
-    result = []
-    for i in range(n):
-        for j in range(m-3):
-            result.append(arr[i][j] + arr[i][j+1] + arr[i][j+2] + arr[i][j+3])
-    for i in range(n-3):
-        for j in range(m):
-            result.append(arr[i][j] + arr[i+1][j] + arr[i+2][j] + arr[i+3][j])
-    return max(result) 
+dir = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-def c(): 
-    result = []
-    for i in range(n-2):
-        for j in range(m-1):
-            result.append(arr[i][j] + arr[i+1][j] + arr[i+2][j] + arr[i+2][j+1])
-            result.append(arr[i][j] + arr[i][j+1] + arr[i+1][j+1] + arr[i+2][j+1])
-            result.append(arr[i+2][j] + arr[i+2][j+1] + arr[i+1][j+1] + arr[i][j+1])
-            result.append(arr[i][j] + arr[i][j+1] + arr[i+1][j] + arr[i+2][j])
-    for i in range(n-1):
-        for j in range(m-2):
-            result.append(arr[i][j+2] + arr[i+1][j+2] + arr[i+1][j+1] + arr[i+1][j])
-            result.append(arr[i][j] + arr[i][j+1] + arr[i][j+2] + arr[i+1][j+2])
-            result.append(arr[i][j] + arr[i][j+1] + arr[i][j+2] + arr[i+1][j])
-            result.append(arr[i][j] + arr[i+1][j] + arr[i+1][j+1] + arr[i+1][j+2])
-    return max(result)
+max_value = max(map(max, arr))
 
-def d(): 
-    result = []
-    for i in range(n-2):
-        for j in range(m-1):
-            result.append(arr[i][j] + arr[i+1][j] + arr[i+1][j+1] + arr[i+2][j+1])
-            result.append(arr[i][j+1] + arr[i+1][j] + arr[i+1][j+1] + arr[i+2][j])
-    for i in range(n-1):
-        for j in range(m-2):
-            result.append(arr[i+1][j] + arr[i+1][j+1] + arr[i][j+1] + arr[i][j+2])
-            result.append(arr[i][j] + arr[i][j+1] + arr[i+1][j+1] + arr[i+1][j+2])
-    return max(result)
+result = 0
 
-def e():
-    result = []
-    for i in range(n-1):
-        for j in range(m-2):
-            result.append(arr[i][j] + arr[i][j+1] + arr[i][j+2] + arr[i+1][j+1])
-            result.append(arr[i][j+1] + arr[i+1][j] + arr[i+1][j+1] + arr[i+1][j+2])
-    for i in range(n-2):
-        for j in range(m-1):
-            result.append(arr[i][j] + arr[i+1][j] + arr[i+2][j] + arr[i+1][j+1])
-            result.append(arr[i][j+1] + arr[i+1][j+1] + arr[i+1][j] + arr[i+2][j+1])
-    return max(result)
+def dfs(x, y, cnt, sum):
+    global result 
+    
+    if result >= sum + (3-cnt) * max_value:
+        return
+
+    if cnt == 3:
+        result = max(result, sum)
+        return
+
+    for d in dir:
+        dx = x + d[0]
+        dy = y + d[1]
+        if 0 <= dx < m and 0 <= dy < n and visited[dy][dx] == False:
+            if cnt == 1:
+                visited[dy][dx] = True
+                dfs(x, y, cnt+1, sum + arr[dy][dx])
+                visited[dy][dx] = False
+            visited[dy][dx] = True
+            dfs(dx, dy, cnt+1, sum + arr[dy][dx])
+            visited[dy][dx] = False
+        
 
 def solve():
-    i = a()
-    j = b()
-    k = c()
-    m = d()
-    n = e()
-
-    print(max(i, j, k, m, n))
+    for i in range(n):
+        for j in range(m):
+            visited[i][j] = True
+            dfs(j, i, 0, arr[i][j])
+            visited[i][j] = False
+    
+    print(result)
 
 solve()
