@@ -2,24 +2,13 @@ def solve(arr):
     global result 
 
     bool_arr = check(arr)
-    temp = reverse(arr)
-    bool_arr2 = check(temp)
-
-    for i in range(n):
-        if bool_arr[i] and bool_arr2[i]:
-            continue
-        else: result += 1
+    for i in bool_arr:
+        if not i: result += 1
 
     temp = rotate()
-
     bool_arr = check(temp)
-    temp2 = reverse(temp)
-    bool_arr2 = check(temp2)
-
-    for i in range(n):
-        if bool_arr[i] and bool_arr2[i]:
-            continue
-        else: result += 1
+    for i in bool_arr:
+        if not i: result += 1
 
 # 90도 회전
 def rotate():
@@ -29,24 +18,16 @@ def rotate():
             temp[i][j] = arr[j][n-i-1]
     return temp
 
-# 좌우반전
-def reverse(arr):
-    temp = [[0]*n for _ in range(n)]
-    for i in range(n):
-        for j in range(n): 
-            temp[i][j] = arr[i][n-1-j]
-    return temp
-    
 # 각 줄마다 좌에서 오른쪽으로만 길이 완성되는지 체크
 def check(arr):
     global result
     bool_arr = []
     for i in range(n):
         visited = [False]*n
-        left = False
+        bool = False
         now = arr[i][0]
         for j in range(n):
-            if left:
+            if bool:
                 break
             diff = arr[i][j] - now
             if diff == 0:
@@ -56,20 +37,20 @@ def check(arr):
                     if 0 <= j-1-k < n and arr[i][j-1-k] == arr[i][j-1] and visited[j-1-k] == False:
                         visited[j-1-k] = True
                     else:
-                        left = True
+                        bool = True
                         break
             elif diff == -1:
                 for k in range(l):
                     if 0 <= j+k < n and  arr[i][j+k] == arr[i][j] and visited[j+k] == False:
                         visited[j+k] = True
                     else: 
-                        left = True
+                        bool = True
                         break
             else:
-                left = True 
+                bool = True 
                 break 
             now = arr[i][j]
-        bool_arr.append(left)
+        bool_arr.append(bool)
 
     return bool_arr
 
