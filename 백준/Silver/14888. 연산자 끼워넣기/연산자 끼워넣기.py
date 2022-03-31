@@ -1,5 +1,3 @@
-from itertools import permutations as pm
-
 def solve():
     comp = []
     for temp in perm:
@@ -20,6 +18,21 @@ def solve():
  
     return max(result_num), min(result_num)
 
+def permu(cnt):
+    if cnt == len(oper):
+        temp = [x for x in list]
+        perm.append(temp)
+        return
+
+    for i, val in enumerate(oper):
+        if visited[i]:
+            continue
+        visited[i] = True
+        list.append(val)
+        permu(cnt+1)
+        list.pop()
+        visited[i] = False
+
 if __name__ == "__main__":
     n = int(input())
     nums = list(map(int, input().split())) 
@@ -35,9 +48,13 @@ if __name__ == "__main__":
             for j in range(leng): oper.append(i)
         else:
             for j in range(leng): oper.append(i)
-    perm = list(pm(oper, len(oper)))
-    result_num = []
 
+    visited = [False] * len(oper)
+    list = []
+    perm = []
+    permu(0)
+
+    result_num = []
     a, b = solve()
 
     print(a)
