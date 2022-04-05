@@ -5,43 +5,25 @@ def calc(c):
     for i in range(3):
         if arr[i][2] != arr[i+1][6]:
             temp[i] = 1
-    
-    if gidx == 0:
-        rotate(0, didx)
-        for i in range(3):
-            if temp[i] == 1:
-                didx *= -1
-                rotate(i+1, didx)
-            else: break
-    
-    elif gidx == 3:
-        rotate(3, didx)
-        for i in range(2, -1, -1):
-            if temp[i] == 1:
-                didx *= -1
-                rotate(i, didx)
-            else: break
-    
-    elif gidx == 1:
-        rotate(1, didx)
-        if temp[0] == 1:
-            rotate(0, -didx)
-        for i in range(1, 3):
-            if temp[i] == 1:
-                didx *= -1
-                rotate(gidx+i, didx)
-            else: break
 
-    else:
-        rotate(2, didx)
-        if temp[2] == 1:
-            rotate(3, -didx)
-        for i in range(1, -1, -1):
-            if temp[i] == 1:
-                didx *= -1
-                rotate(i, didx)
-            else: break
+    rotate(gidx, didx)
 
+    while 0 <= gidx - 1:
+        if temp[gidx-1] == 1:
+            gidx -= 1
+            didx *= -1
+            rotate(gidx, didx)
+        else: break
+
+    gidx = c[0]-1       
+    didx = c[1]
+    while gidx + 1 < 4:        
+        if temp[gidx] == 1:
+            gidx += 1
+            didx *= -1
+            rotate(gidx, didx)
+        else: break
+   
     return
 
 def rotate(idx, d):
