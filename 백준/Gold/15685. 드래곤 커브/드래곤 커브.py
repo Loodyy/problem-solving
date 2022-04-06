@@ -12,8 +12,8 @@ def solve():
         
         for d in dirs:
             x, y = x+dir[d][0], y+dir[d][1]
-            if 0 <= x < 101 and 0 <= y < 101:
-                arr[y][x] = 1
+            #if 0 <= x < 101 and 0 <= y < 101:
+            arr[y][x] = 1
     
     for i in range(100):
         for j in range(100):
