@@ -1,5 +1,4 @@
 from collections import deque
-from copy import deepcopy as dc
 
 def solve(t):
     cnt = 0
@@ -31,50 +30,32 @@ def solve(t):
                 arr[i][j] += arr_temp[i][j] 
         # 확산
 
-        # cleaner
-        # upper side
-        for i in range(air[0][1], 0, -1):
-            x, y = 0, i
-            if arr[y][x] != -1:
-                arr[y][x] = arr[y-1][x]
+        # clean
+        aidx = air[0][1]
+        for i in range(aidx, 0, -1):
+            arr[i][0] = arr[i-1][0]
+        for i in range(aidx+1, n-1):
+            arr[i][0] = arr[i+1][0]
+        arr[aidx][0], arr[aidx+1][0] = -1, -1
         
-        for i in range(1, m):
-            x, y = i, 0
-            arr[y][x-1] = arr[y][x]
-        
-        for i in range(air[0][1]):
-            x, y = m-1, i
-            arr[y][x] = arr[y+1][x]
-        
-        for i in range(m-1, 1, -1):
-            x, y = i, air[0][1]
-            arr[y][x] = arr[y][x-1]
-            if x == 2:
-                arr[y][x-1] = 0
-        # lower side
-        for i in range(air[1][1], n-1):
-            x, y = 0, i
-            if arr[y][x] != -1:
-                arr[y][x] = arr[y+1][x]
-
         for i in range(m-1):
-            x, y = i, n-1
-            arr[y][x] = arr[y][x+1]
+            arr[0][i] = arr[0][i+1]
+            arr[n-1][i] = arr[n-1][i+1]
         
-        for i in range(n-1, air[1][1], -1):
-            x, y = m-1, i
-            arr[y][x] = arr[y-1][x]
+        for i in range(aidx):
+            arr[i][m-1] = arr[i+1][m-1]
+        for i in range(n-1, aidx+1, -1):
+            arr[i][m-1] = arr[i-1][m-1]
 
         for i in range(m-1, 1, -1):
-            x, y = i, air[1][1]
-            arr[y][x] = arr[y][x-1]
-            if x-1 == 1:
-                arr[y][x-1] = 0
+            arr[aidx][i] = arr[aidx][i-1]
+            arr[aidx+1][i] = arr[aidx+1][i-1]
+        arr[aidx][1], arr[aidx+1][1] = 0, 0
 
         # next stage deque
         for i in range(n):
             for j in range(m):
-                if arr[i][j] > 0:
+                if arr[i][j] > 4:
                     q.append([j, i])
 
         cnt += 1
@@ -89,7 +70,7 @@ if __name__ == "__main__":
         for j in range(m):
             if temp[j] == -1:
                 air.append([j, i])
-            elif temp[j] > 0:
+            elif temp[j] > 4:
                 q.append([j, i])
         arr.append(temp)
 
