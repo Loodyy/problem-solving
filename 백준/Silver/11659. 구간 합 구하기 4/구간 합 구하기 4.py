@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def solve():
     
     prefix_sum = [arr[0]]
