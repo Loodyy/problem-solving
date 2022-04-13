@@ -3,25 +3,17 @@ input = sys.stdin.readline
 
 def solve():
 
+    prefix = [[0]*(m+1) for _ in range(n+1)]
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            prefix[i][j] = arr[i-1][j-1] + prefix[i][j-1] + prefix[i-1][j] - prefix[i-1][j-1]
+
     for sum in sums:
         i, j, x, y = sum
-        temp = 0
-        if i == x and j == y:
-            temp = arr[i-1][j-1]
-        elif i == x:
-            for a in range(j, y+1): temp += arr[i-1][a-1]
-        elif j == y:
-            for b in range(i, x+1): temp += arr[b-1][j-1]
-        else:
-            for a in range(i, x+1):
-                for b in range(j, y+1):
-                    temp += arr[a-1][b-1]
-
+        temp = prefix[x][y] - prefix[i-1][y] - prefix[x][j-1] + prefix[i-1][j-1]
         print(temp)
 
     return
-
-
 
 if __name__ == "__main__":
 
