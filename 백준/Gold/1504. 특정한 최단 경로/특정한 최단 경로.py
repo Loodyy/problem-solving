@@ -1,4 +1,4 @@
-from collections import deque
+import heapq
 import sys
 input = sys.stdin.readline
 INF = int(1e9)
@@ -22,19 +22,19 @@ def mst(src):
 
     distance = [INF] * (n+1)
 
-    q = deque()
-    q.append((0, src))
+    q = []
+    heapq.heappush(q, (0, src))
     distance[src] = 0
-    
+
     while q:
-        dist, now = q.pop()
+        dist, now = heapq.heappop(q)
         if dist > distance[now]:
             continue
         for i in graph[now]:
             target, cost = i[0], dist + i[1], 
             if distance[target] > cost:
                 distance[target] = cost
-                q.append((cost, target))
+                heapq.heappush(q, (cost, target))
 
     return distance
 
