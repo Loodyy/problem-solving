@@ -6,13 +6,17 @@ def solve():
 
     a, b = map(int, input().split())
 
-    result = mst(a, b) + min(mst(1, a) + mst(b, n), mst(1, b) + mst(a, n)) # a, b 순서 무시
+    fir = mst(1) # from 1 ~
+    sec = mst(n) # from n ~ 
+    com = mst(a)[b]
+    result = min(fir[a] + com + sec[b], fir[b] + com + sec[a])
+                 # 1~a    a~b    b~n     1~b     b~a    a~n
 
     if result < INF: print(result)
     else: print(-1) # 경로 없을 때
     return
 
-def mst(src, dst):
+def mst(src):
 
     distance = [INF] * (n+1)
 
@@ -30,7 +34,7 @@ def mst(src, dst):
                 distance[target] = cost
                 q.append((cost, target))
 
-    return distance[dst]
+    return distance
 
 if __name__ == "__main__":
 
