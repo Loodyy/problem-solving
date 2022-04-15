@@ -1,5 +1,3 @@
-MAX = int(1e7)
-
 def solve():
     result = 0
 
@@ -10,7 +8,8 @@ def solve():
         temp.append(tmp)
 
     start, end = 1, 1
-    while start <= end:
+    length = len(temp)
+    while start <= end and start < length and end < length:
         sum = temp[end] - temp[start-1]
         if sum >= n:
             start += 1
@@ -24,18 +23,18 @@ def solve():
 
 if __name__ == "__main__":
 
-    arr = [True for _ in range(MAX+1)]
     n = int(input())
-
-    for i in range(2, int(MAX**(1/2))+1):
+    arr = [True for _ in range(n+1)]
+    
+    for i in range(2, int(n**(1/2))+1):
         if arr[i]:
             mul = 2
-            while i*mul <= MAX:
+            while i*mul <= n:
                 arr[i*mul] = False
                 mul += 1
 
     prime = []
-    for i in range(2, MAX+1):
+    for i in range(2, n+1):
         if arr[i]: prime.append(i)
 
     solve()
