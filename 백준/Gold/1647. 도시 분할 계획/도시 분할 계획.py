@@ -10,13 +10,17 @@ def union_parent(a, b):
 
 def solve():
     result = 0
+    union = 0
 
     temp = 0
     for edge in arr:
+        if union == v-1:
+            break
         cost, a, b = edge
         if find_parent(a) != find_parent(b):
             union_parent(a, b)
             result += cost
+            union += 1
             temp = cost
 
     result -= temp    
