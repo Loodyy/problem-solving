@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def find_parent(x):
     if parent[x] != x:
         parent[x] = find_parent(parent[x])
@@ -10,20 +13,20 @@ def union_parent(a, b):
 
 def solve():
     result = 0
-    union = 0
+    union_cnt = 0
 
-    temp = 0
+    max = 0
     for edge in arr:
-        if union == v-1:
+        if union_cnt == v-1:
             break
         cost, a, b = edge
         if find_parent(a) != find_parent(b):
             union_parent(a, b)
             result += cost
-            union += 1
-            temp = cost
+            union_cnt += 1
+            max = cost
 
-    result -= temp    
+    result -= max    
 
     print(result)
     return
