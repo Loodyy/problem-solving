@@ -35,9 +35,7 @@ if __name__ == "__main__":
     for i in range(3):
         arr.sort(key=lambda x: x[i])
         for j in range(n-1):
-            cost = abs(arr[j][i]-arr[j+1][i])
-            fir, sec = arr[j][3], arr[j+1][3]
-            e.append((cost, fir, sec))
+            e.append((abs(arr[j][i]-arr[j+1][i]), arr[j][3], arr[j+1][3]))
 
     e.sort()
     solve()
