@@ -1,37 +1,46 @@
-def solve():
+import heapq
+
+def find_parent(x):
+    if parent[x] != x:
+        parent[x] = find_parent[parent[x]]
+    return parent[x]
+
+def union_parent(a, b):
+    a, b = parent[a], parent[b]
+    if a < b: parent[b] = a
+    else: parent[a] = b
+
+def solve(src):
+
     result = 0
 
-    for edge in arr:
-        cost, a, b = edge
-        if find_parent(a) != find_parent(b):
+    mst = [src]
+    q = []
+    for e in graph[src]:
+        heapq.heappush(q, e)
+
+    while q:
+        cost, a, b = heapq.heappop(q)
+        if parent[a] != parent[b]:
             union_parent(a, b)
+            mst.append(b)
             result += cost
+            for cost, a, b in graph[b]:
+                heapq.heappush(q, (cost, a, b))
+        if len(mst) == v:
+            break
     
     print(result)
     return
 
-def find_parent(x):
-    if parent[x] != x:
-        parent[x] = find_parent(parent[x])
-    return parent[x]
-
-def union_parent(a, b):
-    a, b = find_parent(a), find_parent(b)
-    if a < b: parent[b] = a
-    else: parent[a] = b
-
 if __name__ == "__main__":
 
     v, e = map(int, input().split())
-    visited = [False] * (v+1)
-    arr = []
+    graph = [[] for _ in range(v+1)]
     for _ in range(e):
-        temp = list(map(int, input().split()))
-        arr.append([temp[2], temp[0], temp[1]])
-    arr.sort()
-    
-    parent = [0] * (v+1)
-    for i in range(v+1):
-        parent[i] = i
+        a, b, cost = map(int, input().split())
+        graph[a].append((cost, a, b))
+        graph[b].append((cost, b, a))
+    parent = list(range(v+1))
 
-    solve()
+    solve(1)
