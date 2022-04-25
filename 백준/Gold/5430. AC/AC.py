@@ -18,11 +18,7 @@ def solve(p, arr):
     
     if check_re:
         arr.reverse()
-    print("[", end='')
-    for i in range(len(arr)):
-        if i != len(arr)-1: print(arr[i], end=',')
-        else: print(arr[i], end='')
-    print("]")
+    print("["+','.join(arr)+"]")
     return
 
 if __name__ == "__main__":
@@ -36,7 +32,7 @@ if __name__ == "__main__":
         temp = input()
         tmp = temp[1:len(temp)-1]
         if len(tmp): 
-            arr = deque(list(map(int, tmp.split(','))))
+            arr = deque(list(tmp.split(',')))
             
         else:
             arr = deque()
