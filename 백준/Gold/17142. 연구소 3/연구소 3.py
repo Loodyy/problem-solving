@@ -19,23 +19,19 @@ def bfs(temp, birus):
 
     arr = dc(temp)
 
-    visited = [[False] * n for _ in range(n)]
     q = deque()
     for x, y in birus:
         q.append((x, y))
         arr[y][x] = 0
-        visited[y][x] = True
     
     while q:
         x, y = q.popleft()
         for d in dir:
             tx, ty = x+d[0], y+d[1]
             if 0 <= tx < n and 0 <= ty < n:
-                if not visited[ty][tx]:
-                    if arr[ty][tx] == 0:
-                        arr[ty][tx] = arr[y][x] + 1
-                        visited[ty][tx] = True
-                        q.append((tx, ty))
+                if arr[ty][tx] == 0 and (tx, ty) not in birus:
+                    arr[ty][tx] = arr[y][x] + 1
+                    q.append((tx, ty))
     
     check = True
     max_v = 0
