@@ -14,39 +14,37 @@ def solve():
                     chess[y][x] = deque(list(chess[y][x])[:j])
                     for c in chunk: # x: (idx, d)
                         idxs.append(c[0])
-                    tx, ty = x+dir[d][0], y+dir[d][1]
-                    
-                    if (0 <= tx < n and 0 <= ty < n) and (arr[ty][tx] == 0 or arr[ty][tx] == 1):
                         
-                        if arr[ty][tx] == 0:
-                            chess[ty][tx].extend(chunk)
-                        else:
-                            chess[ty][tx].extend(chunk[::-1])
-                        move_pos(idxs, d)
-                    else:   
+                    tx, ty = x+dir[d][0], y+dir[d][1]
+                    if not move(tx, ty, idxs, d, chunk):
                         if d < 3: d = 1 if d == 2 else 2
                         else: d = 3 if d == 4 else 4
                         chunk[0][1] = d
-                        
-                        tx, ty = x+dir[d][0], y+dir[d][1]
 
-                        if (0 <= tx < n and 0 <= ty < n) and (arr[ty][tx] == 0 or arr[ty][tx] == 1):
-                            if arr[ty][tx] == 0:
-                                chess[ty][tx].extend(chunk)
-                            else:
-                                chess[ty][tx].extend(chunk[::-1])
-                            move_pos(idxs, d)
-                        else: chess[y][x].extend(chunk)
+                        tx, ty = x+dir[d][0], y+dir[d][1]             
+                        if not move(tx, ty, idxs, d, chunk):
+                            chess[y][x].extend(chunk)
 
             for i in chess:
                 for j in i:
                     if len(j) >= 4:
                         print(cnt)
                         return 
+
         if cnt > 1000:
             print(-1)
             return 
         cnt += 1
+
+def move(tx, ty, idxs, d, chunk):
+    if (0 <= tx < n and 0 <= ty < n) and (arr[ty][tx] == 0 or arr[ty][tx] == 1):          
+        if arr[ty][tx] == 0:
+            chess[ty][tx].extend(chunk)
+        else:
+            chess[ty][tx].extend(chunk[::-1])
+        move_pos(idxs, d)
+        return True
+    return False
 
 def move_pos(idxs, d):
     for idx in idxs:
