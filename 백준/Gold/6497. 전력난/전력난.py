@@ -1,10 +1,11 @@
-import heapq
+import sys
+input = sys.stdin.readline
 
 def solve():
 
     result = 0
     for edge in arr:
-        cost, a, b = edge
+        a, b, cost= edge
         if find_parent(a) != find_parent(b):
             union_parent(a, b)
             result += cost
@@ -28,13 +29,9 @@ if __name__ == "__main__":
         h, n = map(int, input().split())
         if not h and not n:
             break
-        arr = []
-        parent = list(range(n+1))
-        total = 0
-        for _ in range(n):
-            a, b, cost = map(int, input().split())
-            total += cost
-            arr.append((cost, a, b))
-        arr.sort()
+        arr = [list(map(int, input().split())) for _ in range(n)]
+        parent = list(range(h+1))
+        total = sum(i[2] for i in arr)
+        arr.sort(key=lambda x: x[2])
 
         solve()
