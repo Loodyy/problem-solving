@@ -1,0 +1,22 @@
+def solution(id_list, report, k):
+    leng = len(id_list)
+    answer = [0] * leng
+    rep = [[0] * leng for _ in range(leng)]
+    for x in report:
+        a, b = x.split()
+        i, j = id_list.index(a), id_list.index(b)
+        rep[j][i] = 1
+
+    reported = []
+    for i, x in enumerate(rep):
+        num = x.count(1)
+        if num >= k:
+            reported.append(i)
+
+    for i in range(leng):
+        for j in range(leng):
+            if j in reported:
+                if rep[j][i] == 1:
+                    answer[i] += 1
+
+    return answer
