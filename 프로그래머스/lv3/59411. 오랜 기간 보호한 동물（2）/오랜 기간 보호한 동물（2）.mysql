@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+SELECT ins.animal_id, ins.name
+FROM animal_ins as ins 
+    JOIN animal_outs as outs USING(animal_id)
+ORDER BY outs.datetime - ins.datetime DESC
+LIMIT 2
