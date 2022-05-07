@@ -1,0 +1,49 @@
+import heapq
+
+def solution(n, start, end, roads, traps):
+    INF = int(1e9)
+    dist = [[INF for _ in range(n+1)] for _ in range(2**len(traps))] # dist[state][node]
+    
+    is_trap = [False] * (n+1)
+    traps_idx = {}
+    for i, x in enumerate(traps):
+        is_trap[x] = True
+        traps_idx[x] = i
+
+    graph = [[] for _ in range(n+1)]
+    for road in roads:
+        a, b, cost = road
+        graph[a].append((b, cost, 0)) # [2]: dir flag 
+        graph[b].append((a, cost, 1))  
+
+    q = []
+    heapq.heappush(q, (0, start, 0)) # dist, node, state
+    dist[0][start] = 0 
+
+    while q:
+        distance, now, state = heapq.heappop(q)
+        if now == end:
+            return distance
+        if dist[state][now] < distance:
+            continue
+        for i in graph[now]:
+            next, cost, flag = i[0], i[1]+distance, i[2]
+            now_flag = flag
+            next_state = state
+            if is_trap[now]:
+                if is_trap[next]:
+                    flag = ((1 & (state>>traps_idx[now])) ^ (1 & (state>>traps_idx[next])))
+                    next_state = state ^ (1<<traps_idx[next]) 
+                else:
+                    flag = (1 & (state>>traps_idx[now])) 
+            else:
+                if is_trap[next]:
+                    flag = (1 & (state>>traps_idx[next]))
+                    next_state = state ^ (1<<traps_idx[next])
+                else:
+                    flag = 0
+            
+            if flag == now_flag:
+                if cost < dist[next_state][next]:
+                    dist[next_state][next] = cost
+                    heapq.heappush(q, (cost, next, next_state))
