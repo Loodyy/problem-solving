@@ -1,0 +1,7 @@
+-- 코드를 입력하세요
+SELECT ins.animal_id, ins.animal_type, ins.name
+FROM animal_ins as ins
+    JOIN animal_outs as outs USING(animal_id)
+WHERE ins.sex_upon_intake in ("Intact Male", "Intact Female") 
+and outs.sex_upon_outcome not in ("Intact Male", "Intact Female")
+ORDER BY animal_id
