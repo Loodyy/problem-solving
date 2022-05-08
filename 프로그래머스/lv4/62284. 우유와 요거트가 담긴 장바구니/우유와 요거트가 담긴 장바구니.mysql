@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+SELECT cart_id
+FROM cart_products as X
+    JOIN cart_products as Y USING(cart_id)
+WHERE X.name = "Milk" and Y.name = "Yogurt"
+ORDER BY cart_id
