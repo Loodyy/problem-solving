@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def solve(n, max_v):
     prime_c = prime(max_v)
     dp = [[0] * (n+1) for _ in range(n+1)]
