@@ -1,0 +1,20 @@
+def solution(record):
+    answer = []
+    dic = {}
+    for x in record:
+        temp = list(x.split())
+        if temp[0] == "Enter":
+            dic[temp[1]] = temp[2]
+            answer.append(temp[1]+"님이 들어왔습니다.")
+        elif temp[0] == "Leave":
+            answer.append(temp[1]+"님이 나갔습니다.")
+        else:
+            dic[temp[1]] = temp[2]
+    
+    result = []
+    for x in answer:
+        a, _ = x.split()
+        uid = a[:-2]
+        result.append(x.replace(uid, dic[uid]))
+
+    return result
