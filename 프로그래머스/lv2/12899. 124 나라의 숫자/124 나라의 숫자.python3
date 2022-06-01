@@ -1,13 +1,12 @@
 def solution(n):
     answer = ''
     
+    list = ["1", "2", "4"]
     cnt = 1
     while n > 0:
         temp = n%(3**cnt) if n%(3**cnt) else 3**cnt
         flag = temp//(3**(cnt-1))
-        if flag == 1: answer += "1"
-        elif flag == 2: answer += "2"
-        elif flag == 3: answer += "4"
+        answer += list[flag-1]
         n -= temp
         cnt += 1
     
