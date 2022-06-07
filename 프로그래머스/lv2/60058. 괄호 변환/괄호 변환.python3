@@ -1,0 +1,54 @@
+def solution(q):
+    result = ""
+
+    result = recur(q)
+
+    return result
+
+def recur(q):
+    tmp = ""
+    if len(q):
+        u, v = separate(q)
+        if check_str(u): 
+            tmp += u + recur(v)
+
+        else:
+            temp = "(" + recur(v) + ")"
+            u = u[1:len(u)-1]
+            ru = ""
+            for x in u:
+                if x == "(": ru += ")"
+                else: ru += "("
+            tmp += temp + ru
+
+    return tmp
+
+def separate(q):
+    l, r = 0, 0
+    for x in q:
+        if x == "(": l += 1
+        else: r += 1
+        if l == r: break
+    u, v = q[:l+r], q[l+r:]
+
+    return u, v
+
+def check_str(string):
+    q = []
+    for x in string:
+        if x == "(": q.append(x)
+        else:
+            if len(q) and q[-1] == "(":
+                q.pop()
+            else: q.append(x)
+    if len(q): return False
+    return True
+
+def main():
+
+    q = "()))((()"
+    print(solution(q))
+
+
+if __name__ == "__main__":
+    main()
