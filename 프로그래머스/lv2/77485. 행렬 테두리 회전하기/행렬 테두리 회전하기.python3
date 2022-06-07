@@ -1,0 +1,40 @@
+from collections import deque
+
+def solution(rows, columns, queries):
+    answer = []
+    arr = [[columns*i+j+1 for j in range(columns)] for i in range(rows)]
+    
+    for query in queries:
+
+        minv = rotate(query, arr)
+        answer.append(minv)
+        
+        
+    return answer
+
+def rotate(query, arr):
+    x1, y1, x2, y2 = query
+    
+    temp_list = deque()
+    for i in range(y1-1, y2-1):
+        temp_list.append(arr[x1-1][i])
+    for j in range(x1-1, x2-1):
+        temp_list.append(arr[j][y2-1])
+    for p in range(y2-1, y1-1, -1):
+        temp_list.append(arr[x2-1][p])
+    for q in range(x2-1, x1-1, -1):
+        temp_list.append(arr[q][y1-1])
+    
+    temp_list.rotate(1)
+    minv = min(temp_list)
+    
+    for i in range(y1-1, y2-1):
+        arr[x1-1][i] = temp_list.popleft()
+    for j in range(x1-1, x2-1):
+        arr[j][y2-1] = temp_list.popleft()
+    for p in range(y2-1, y1-1, -1):
+        arr[x2-1][p] = temp_list.popleft()
+    for q in range(x2-1, x1-1, -1):
+        arr[q][y1-1] = temp_list.popleft()
+    
+    return minv
