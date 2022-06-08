@@ -1,0 +1,39 @@
+def solution(expression):
+    answer = 0
+    priority = ["+-*","+*-","-+*","-*+","*+-","*-+"]
+    
+    pre, tmp = [], "" # ex) temp = [100,-,200,*,300,-,500,+,20]
+    for x in expression:
+        if x.isdigit(): tmp += x
+        else:
+            pre.append(int(tmp)) # number
+            pre.append(x) # oper
+            tmp = ""
+    pre.append(int(tmp))
+    
+    
+    for calc in priority: # 6
+        copied = [x for x in pre] # copy pre
+        for ex in calc: # 3
+            temp = [copied[0]]
+            for j, y in enumerate(copied):
+                if y in list(calc):
+                    if y == ex:
+                        a = int(temp.pop())
+                        res = calced(a, copied[j+1], y)
+                        temp.append(res)
+                    else:
+                        temp.extend(copied[j:j+2])
+            copied = [z for z in temp]
+            
+        answer = max(answer, abs(copied[0]))
+  
+    return answer
+
+def calced(a, b, oper):
+    result = 0
+    if oper == "+": result = a+b
+    elif oper == "-": result = a-b
+    else: result = a*b
+    
+    return result
