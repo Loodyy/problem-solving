@@ -1,0 +1,38 @@
+def solution(grid):
+    answer = []
+    dir = [(-1, 0), (0, -1), (1, 0), (0, 1)] # w, n, e, s
+    
+    arr = [list(x) for x in grid] # 2d arr
+    r, c = len(grid), len(arr[0])
+    paths = []
+    
+    visited = {}
+    
+    for i in range(r):
+        for j in range(c):
+            for d in range(4):
+                if visited.get(((j, i, arr[i][j]), d)): # node in cycle
+                    continue
+                x, y = j, i
+                tpath = [((j, i, arr[i][j]), d)] # ((x, y, node), direction)
+                while True:
+                    x, y = (x+dir[d][0])%c, (y+dir[d][1])%r
+                    if arr[y][x] == "L": d = (d-1)%4
+                    elif arr[y][x] == "R": d = (d+1)%4
+                    tup = ((x, y, arr[y][x]), d)
+                    if tup == tpath[0]: break
+                    else: 
+                        tpath.append(tup)
+                        if not visited.get(tup):
+                            visited[tup] = True
+                paths.append(tpath)
+                # if len(paths):
+                #     for path in paths:
+                #         if tpath not in paths:
+                #             paths.append(tpath)
+                # else: paths.append(tpath)
+
+    for path in paths:
+        answer.append(len(path))
+    answer.sort()
+    return answer
