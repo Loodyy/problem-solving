@@ -1,0 +1,22 @@
+from collections import deque
+
+def solution(priorities, location):
+    answer = 0
+    
+    q = deque([x for x in priorities])
+    idx = location
+    while True:
+        maxv = max(q)
+        now  = q.popleft()
+        if now == maxv:
+            answer += 1
+            if idx == 0:
+                break
+            else: idx -= 1
+        else:
+            if idx == 0:
+                idx = len(q)
+            else: idx -= 1
+            q.append(now)
+
+    return answer
