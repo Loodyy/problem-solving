@@ -29,7 +29,8 @@ def find_parent(x, parent):
     return parent[x]
 
 def union_parent(a, b, parent):
-    a, b = find_parent(a, parent), find_parent(b, parent)
+    # a, b = find_parent(a, parent), find_parent(b, parent)
+    a, b = parent[a], parent[b]
     if a < b:
         parent[b] = a
     else:
