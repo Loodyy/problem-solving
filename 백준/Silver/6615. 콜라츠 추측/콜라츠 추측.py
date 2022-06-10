@@ -1,51 +1,33 @@
 def solve(a, b):
     A, B = a, b
-    alist, blist = [a], [b]
-    acnt = bcnt = 0
-    aend = bend = False
-    target = 0
-    if a != b:
-        while True:
-            ta = tb = 0
-            if a != 1:
-                if not a%2: 
-                    ta = a//2
-                else: ta = a*3+1
 
-            if b != 1:
-                if not b%2:
-                    tb = b//2
-                else: tb = b*3+1
+    adic = {}
+    acnt = 1
+    while a != 1:
+        adic[a] = acnt
+        if not a%2:
+            a = a//2
+        else: a = a*3+1
+        acnt += 1
+    adic[a] = acnt
 
-            if ta in blist:
-                target = ta
-                alist.append(ta)
-                break
+    bcnt = 0
+    while b != 1:
 
-            if ta != 1:
-                alist.append(ta)
-                a = ta
-            elif not aend:
-                alist.append(1)
-                a = ta = 1
-                aend = True
+        if adic.get(b):
+            acnt = adic[b]-1
+            target = b
+            print("{} needs {} steps, {} needs {} steps, they meet at {}".format(A, acnt, B, bcnt, target))
+            return
 
-            if tb in alist:
-                target = tb
-                blist.append(tb)
-                break
+        if not b%2:
+            b = b//2
+        else: b = b*3+1
 
-            if tb != 1:
-                blist.append(tb)
-                b = tb
-            elif not bend:
-                blist.append(1)
-                b = tb = 1
-                bend = True     
-                       
-        acnt, bcnt = alist.index(target), blist.index(target)
-    else: target = a
+        bcnt += 1
 
+    acnt = adic[1]-1
+    target = 1
     print("{} needs {} steps, {} needs {} steps, they meet at {}".format(A, acnt, B, bcnt, target))
     return
 
