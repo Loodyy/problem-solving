@@ -1,15 +1,21 @@
 def solve(n):
     result = 0
+    
+    tmp = n
+    cnt, tar = 0, 0
+    while tmp >= 0:
+        if tmp%3 == 0:
+            tar = cnt
+        cnt += 1
+        tmp -= 5
 
-    dp = [1e9] * (n+1)
-    dp[0] = 0
-    for i in range(1, n+1):
-        for bag in [3, 5]:
-            if i-bag >= 0:
-                dp[i] = min(dp[i], dp[i-bag]+1)
+    rest = n - tar*5
+    if rest%3 == 0:
+        result = tar + rest//3
+    else:
+        result = -1
 
-    result = dp[n] if dp[n] != 1e9 else -1
-    return result
+    return result  
 
 def main():
 
