@@ -1,0 +1,51 @@
+def solution(n, k, cmd):
+    answer = ''
+
+    deleted = []
+    idx = k
+    
+    arr = [[i, i-1, i+1] for i in range(n)] # value, left, right
+
+    for comend in cmd: # 200,000
+        temp = comend.split()
+        ctrl = temp[0]
+
+        if ctrl == "U":
+            cnt = int(temp[1])
+            for _ in range(cnt):
+                idx = arr[idx][1]
+                    
+        elif ctrl == "D":
+            cnt = int(temp[1])
+            for _ in range(cnt):
+                idx = arr[idx][2]
+
+        elif ctrl == "C":
+            deleted.append([arr[idx][0], arr[idx][1], arr[idx][2]])
+            
+            if arr[idx][1] >= 0:
+                arr[arr[idx][1]][2] = arr[idx][2]
+            if arr[idx][2] < n:
+                arr[arr[idx][2]][1] = arr[idx][1]
+
+            tmp = arr[idx][2]
+            if tmp == n: tmp = arr[idx][1]
+
+            arr[idx][1] = arr[idx][2] = -1
+            idx = tmp
+            
+        elif ctrl == "Z":
+            tar = deleted.pop()
+            
+            tidx, l, r = tar[0], tar[1], tar[2]
+            if l >= 0: arr[l][2] = tidx
+            if r < n: arr[r][1] = tidx
+            arr[tidx][1], arr[tidx][2] = l, r
+
+        #print(comend, idx, arr)   
+    for x in range(n):
+        if arr[x][1] >= 0 or arr[x][2] >= 0:
+            answer += "O"
+        else: answer += "X" 
+    #print(answer)
+    return answer
