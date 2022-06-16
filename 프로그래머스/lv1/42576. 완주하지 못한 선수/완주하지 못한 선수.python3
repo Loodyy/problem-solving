@@ -1,0 +1,16 @@
+from collections import defaultdict
+
+def solution(participant, completion):
+    answer = ''
+    
+    user_dic = defaultdict(int)
+    for user in participant:
+        user_dic[user] += 1
+    
+    for comp_user in completion:
+        user_dic[comp_user] -= 1
+        if user_dic[comp_user] == 0:
+            user_dic.pop(comp_user)
+    
+    answer = list(user_dic.keys())[0]
+    return answer
