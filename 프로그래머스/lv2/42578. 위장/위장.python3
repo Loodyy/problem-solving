@@ -1,0 +1,17 @@
+from collections import defaultdict
+
+def solution(clothes):
+    answer = 0
+    
+    cloth_dic = defaultdict(int)
+    for name, kind in clothes:
+        cloth_dic[kind] += 1
+        
+    cloths_list = list(cloth_dic.items())
+ 
+    
+    for kind, cnt in cloths_list:
+        plus = answer * cnt
+        answer += cnt + plus
+    
+    return answer
