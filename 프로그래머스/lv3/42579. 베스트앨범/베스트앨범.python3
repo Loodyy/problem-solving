@@ -4,23 +4,31 @@ def solution(genres, plays):
     answer = []
     
     music_dic = defaultdict(int)
-    for genre, play in zip(genres, plays):
+    each_music = defaultdict(list)
+    
+    idx = 0
+    for genre, play in zip(genres, plays): # 10,000
         music_dic[genre] += play
+        each_music[genre].append((play, idx))
+        idx += 1
         
+    print(each_music)
     musics = list(music_dic.items())
-    musics.sort(key=lambda x: -x[1])
+    musics.sort(key=lambda x: -x[1]) # 1,000,000
     
     genre_list = [m[0] for m in musics]
     
-    for i, genre in enumerate(genre_list):
-        temp = []
-        for j in range(len(plays)):
-            if genres[j] == genre:
-                temp.append((plays[j], j))
-        temp.sort(key=lambda x: (x[0], -x[1]))
+    for i, genre in enumerate(genre_list): # 10,000
+        # temp = []
+        # for j in range(len(plays)): # 10,000
+        #     if genres[j] == genre:
+        #         temp.append((plays[j], j))
+        # temp.sort(key=lambda x: (-x[0], x[1])) #
+        temp = each_music[genre]
+        temp.sort(key=lambda x: (-x[0], x[1]))
         if len(temp) > 1:
-            answer.append(temp[-1][1])
-            answer.append(temp[-2][1])
+            answer.append(temp[0][1])
+            answer.append(temp[1][1])
         else:
             answer.append(temp[0][1])
         
