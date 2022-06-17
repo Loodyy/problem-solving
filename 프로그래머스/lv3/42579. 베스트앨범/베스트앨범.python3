@@ -1,0 +1,27 @@
+from collections import defaultdict
+
+def solution(genres, plays):
+    answer = []
+    
+    music_dic = defaultdict(int)
+    for genre, play in zip(genres, plays):
+        music_dic[genre] += play
+        
+    musics = list(music_dic.items())
+    musics.sort(key=lambda x: -x[1])
+    
+    genre_list = [m[0] for m in musics]
+    
+    for i, genre in enumerate(genre_list):
+        temp = []
+        for j in range(len(plays)):
+            if genres[j] == genre:
+                temp.append((plays[j], j))
+        temp.sort(key=lambda x: (x[0], -x[1]))
+        if len(temp) > 1:
+            answer.append(temp[-1][1])
+            answer.append(temp[-2][1])
+        else:
+            answer.append(temp[0][1])
+        
+    return answer
