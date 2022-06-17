@@ -1,0 +1,17 @@
+from collections import deque
+
+def solution(prices):
+    n = len(prices)
+    arr = []
+    answer = [0] * n
+    
+    for i in range(n):
+        while arr and arr[-1][1] > prices[i]:
+            pre_idx, _ = arr.pop()
+            answer[pre_idx] = i-pre_idx # 자기보다 작은 가격이 나와서 죽음
+        arr.append([i, prices[i]])
+
+    for idx, _ in arr: # 살아남은 가격들은 max-1-idx
+        answer[idx] = n-1-idx
+
+    return answer
