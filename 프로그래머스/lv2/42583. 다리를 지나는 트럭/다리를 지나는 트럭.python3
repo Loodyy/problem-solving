@@ -1,0 +1,25 @@
+from collections import deque
+
+def solution(bridge_length, weight, truck_weights):
+    answer = 0
+    
+    n = len(truck_weights)
+    idx, currw, time = 0, 0, 0
+    curr = deque()
+    cnt = n
+    while True:
+        if idx < n: now = truck_weights[idx]
+        if currw+now <= weight:
+            idx += 1
+            currw += now
+            curr.append([bridge_length, now])
+
+        answer += 1
+        for x in curr:
+            x[0] -= 1
+        if curr[0][0] == 0:
+            currw -= curr[0][1]
+            curr.popleft()
+            cnt -= 1
+            if cnt == 0:
+                return answer+1
