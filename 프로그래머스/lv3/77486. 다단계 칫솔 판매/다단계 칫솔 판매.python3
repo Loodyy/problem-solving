@@ -1,0 +1,35 @@
+import sys
+input = sys.stdin.readline
+
+def solution(enroll, referral, seller, amount):
+    n = len(enroll)
+    answer = [0] * n
+    
+    parent = [0] * n
+    dic = {}
+    for i in range(n):
+        dic[enroll[i]] = i
+    for i, re in enumerate(referral):
+        if re == "-":
+            parent[i] = -1
+        else:
+            parent[i] = dic[re]
+    sell = {}
+    for i, s in enumerate(seller):
+        sell[s] = i 
+
+    check = [False] * len(seller)
+    for i, (name, m) in enumerate(zip(seller, amount)): # 100,000
+        tar = dic[name]
+        selling = m*100
+        while tar != -1: # 100,000
+            if selling*0.1 < 1:
+                fare = 0
+            else: fare = int(selling*0.1)
+            answer[tar] += selling - fare
+            selling = fare
+            if fare == 0:
+                break
+            tar = parent[tar]
+
+    return answer
