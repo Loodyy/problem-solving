@@ -11,13 +11,12 @@ def solution(expression):
             tmp = ""
     pre.append(int(tmp))
     
-    
     for calc in priority: # 6
         copied = [x for x in pre] # copy pre
         for ex in calc: # 3
             temp = [copied[0]]
             for j, y in enumerate(copied):
-                if y in list(calc):
+                if y in set(calc):
                     if y == ex:
                         a = int(temp.pop())
                         res = calced(a, copied[j+1], y)
