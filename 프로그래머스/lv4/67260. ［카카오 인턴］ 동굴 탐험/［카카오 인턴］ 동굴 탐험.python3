@@ -1,0 +1,38 @@
+from collections import deque
+
+def solution(n, path, order):
+    answer = True
+    graph = [[] for _ in range(n)]
+    
+    for a, b in path:
+        graph[a].append(b)
+        graph[b].append(a)
+
+    orders = [0] * n
+    for pre, post in order:
+        orders[post] = pre
+    
+    vcnt = 0
+    visited = [0] * n
+    q = deque([0])
+    after = {}
+    while q: 
+        now = q.popleft()
+
+        # 선행 조건이 있고 선행 노드가 방문하지 않았을 때 
+        if orders[now] and not visited[orders[now]]:
+            after[orders[now]] = now # 선행 노드를 체크
+            continue
+        visited[now] = True
+        vcnt += 1
+
+        for next in graph[now]:
+            if not visited[next]:
+                q.append(next)
+        
+        if now in after:
+            q.append(after[now])
+
+    if vcnt != n:
+        answer = False
+    return answer
