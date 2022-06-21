@@ -1,0 +1,39 @@
+from collections import defaultdict
+
+def solution(gems):
+    answer = []
+    
+    n = len(set(gems))
+    if n == len(gems):
+        return [1, n]
+    kinds = defaultdict(int)
+    
+    
+    l, r = 0, 0
+    kinds[gems[0]] = 1
+    res = (1e9, 1, 1)
+    cnt = 1
+    while l <= r:          
+        if cnt < n and r < len(gems)-1:
+            r += 1
+            if kinds[gems[r]] == 0:
+                cnt += 1
+            kinds[gems[r]] += 1
+        else:
+            if kinds[gems[l]] > 0:
+                kinds[gems[l]] -= 1
+            if kinds[gems[l]] == 0:
+                cnt -= 1
+            l += 1
+
+        if cnt == n:
+            leng = r-l+1
+            if leng < res[0]:
+                res = (leng, l+1, r+1)
+            elif res[0] == leng:
+                if l+1 < res[1]:
+                    res = (leng, l+1, r+1) 
+            
+        
+    answer = list(res[1:])
+    return answer
