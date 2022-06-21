@@ -1,0 +1,23 @@
+def solution(board, moves):
+    answer = 0
+    
+    box = []
+    n = len(board)
+    buckets = [[] for _ in range(n)]
+    for i in range(n-1, -1, -1):
+        for j in range(n):
+            if board[i][j] != 0:
+                buckets[j].append(board[i][j])
+                
+    for move in moves:
+        now = 0
+        if len(buckets[move-1]):
+            now = buckets[move-1][-1]
+            buckets[move-1].pop()
+        if len(box) > 0 and box[-1] == now:
+            box.pop()
+            answer += 2
+        elif now > 0:
+            box.append(now)
+
+    return answer
