@@ -1,22 +1,24 @@
-import heapq
+from collections import deque
 
-def solution(board):
-    answer = []
+def solution(board): # 0-1 BFS
+    minV = 1e9
     n = len(board)
     dir = [[1, 0], [0, 1], [-1, 0], [0, -1]] # 우, 하, 좌, 상
     
-    q = []
-    visited = {}
-    heapq.heappush(q, (0, 0, 0, 0)) # money, x, y, d
-    heapq.heappush(q, (0, 0, 0, 1))
+    q = deque()
+    q.append((0, 0, 0, 0))
+    q.append((0, 0, 0, 1))
+    visited = [[[-1] * n for _ in range(n)] for _ in range(4)]
     while q:
-        money, x, y, didx = heapq.heappop(q)
-        if visited.get((x, y, didx)):
+        money, x, y, didx = q.popleft()
+        if visited[didx][y][x] > 0 and visited[didx][y][x] <= money:
             continue
-        else: visited[(x, y, didx)] = True
-        
+        else:
+            visited[didx][y][x] = money
         if x == n-1 and y == n-1:
-            return money
+            minV = min(minV, money)
+            continue
+
         for i in range(4):
             if didx == (i+2)%4:
                 continue
@@ -25,10 +27,8 @@ def solution(board):
             
             if 0 <= tx < n and 0 <= ty < n and board[ty][tx] == 0:
                 if didx == i:
-                    heapq.heappush(q, (money+100, tx, ty, i))
+                    q.appendleft((money+100, tx, ty, i))
                 else:
-                    heapq.heappush(q, (money+600, tx, ty, i))  
-                #print(tx, ty, i, money)
-                
-    
-    return 
+                    q.append((money+600, tx, ty, i))  
+
+    return minV
