@@ -1,0 +1,17 @@
+from itertools import combinations as cb
+
+def solution(nums):
+    answer = 0
+    pair = list(cb(nums, 3))
+    for i in range(len(pair)):
+        if is_prime(sum(pair[i])):
+            answer += 1
+    return answer
+
+def is_prime(tar):
+    if tar == 0 or tar == 1:
+        return False
+    for i in range(2, int(tar**(1/2))+1):
+        if tar%i == 0:
+            return False
+    return True
