@@ -1,25 +1,23 @@
 def solution(s):
-    answer = len(s)
-    for i in range(1, len(s)//2+1):
-        list = []
-        result = ""
-        cnt = 1
-        for j in range(i, len(s), i):
-            pre = s[j-i:j]
-            now = s[j:j+i]
-            if pre == now: 
+    n = len(s)
+    answer = n
+    for i in range(1, n//2+1):
+        temp = []
+        res, cnt = "", 1
+        for j in range(0, n, i):
+            pre = s[j:j+i]
+            post = s[j+i:j+2*i]
+            if pre == post: 
                 cnt += 1
             else:
-                list.append((pre, cnt))
+                temp.append(pre)
+                if cnt > 1: 
+                    temp.append(str(cnt))
                 cnt = 1
-        list.append((now, cnt)) # last elem
-
-        for x, cnt in list:
-            if cnt > 1:
-                result += str(cnt)+x
-            else: result += x
         
-        # print(result)
-        answer = min(answer, len(result))
+        leng = 0
+        for elem in temp:
+            leng += len(elem)
+        answer = min(answer, leng)
         
     return answer
