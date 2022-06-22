@@ -1,0 +1,35 @@
+def solution(lines):
+    answer = 0
+    n = len(lines)
+    times = []
+    for line in lines:
+        s, e = parsing(line)
+        times.append((s, e))
+        
+    maxV = 0
+    for i in range(n):
+        start, end = times[i]
+        cnt = 1
+        left, right = end, round(end+0.999, 3)
+        for j in range(i+1, n):
+            s, e = times[j]
+            if right < e-3+0.001:
+                break
+            if s <= right:
+                
+                cnt += 1
+        maxV = max(maxV, cnt)
+    
+    answer = maxV
+    return answer
+
+def parsing(string):
+    temp = string.split()
+    time = temp[1].split(":")
+    t = float(temp[2][:-1])
+    end = int(time[0])*3600+int(time[1])*60+float(time[2])
+    start = end-t+0.001
+    return start, end
+    
+    
+
