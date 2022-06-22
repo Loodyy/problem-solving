@@ -1,0 +1,27 @@
+def solution(n, lost, reserve):
+    answer = n
+    answer -= len(lost)
+    lost.sort()
+    reserve.sort()
+
+    already = set(lost) & set(reserve)
+    answer += len(already)
+    
+    print(answer)
+    for resr in reserve:
+        for i, lo in enumerate(lost):
+            if resr in already or lo in already:
+                continue
+            if resr-1 == lo or resr+1 == lo:
+                lost[i] = -1
+                answer += 1
+                break
+                
+    # for i in lost:
+    #     for j in range(len(reserve)):
+    #         if reserve[j]+1 == i or reserve[j]-1 == i:
+    #             reserve[j] = -1
+    #             answer += 1
+    #             break
+
+    return answer
