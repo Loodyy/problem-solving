@@ -1,0 +1,22 @@
+def solution(n):
+    answer = 0
+    # 27 18 1200
+    # 81 27 9 6 2 11122
+    now = 1
+    while now <= n:
+        now *= 3
+    
+    maxV = now//3
+    res = ""
+    while maxV > 0:
+        div, mod = divmod(n, maxV)
+        res += str(div)
+        n = mod
+        maxV //= 3
+        
+    mul = 1
+    for bit in res:
+        answer += int(bit)*mul
+        mul *= 3
+        
+    return answer
