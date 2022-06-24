@@ -1,0 +1,29 @@
+from collections import deque
+
+def solution(maps):
+    r, c = len(maps), len(maps[0])
+    dir = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+    
+    visited = [[0] * c for _ in range(r)]
+    q = deque()
+    if maps[0][0] == 1:
+        q.append((0, 0))
+        visited[0][0] = 1
+
+    while q:
+        x, y = q.popleft()
+        if x == c-1 and y == r-1:
+            for v in visited:
+                print(v)
+            return visited[y][x]
+        for dx, dy in dir:
+            tx, ty = x+dx, y+dy
+            if is_valid(tx, ty, maps, visited):
+                visited[ty][tx] = visited[y][x] + 1
+                q.append([tx, ty])
+    return -1
+
+def is_valid(x, y, maps, visited):
+    return 0 <= x < len(visited[0]) and 0 <= y < len(visited)\
+           and maps[y][x] != 0 and visited[y][x] == 0
+    
