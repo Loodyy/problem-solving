@@ -1,0 +1,43 @@
+def solution(m, n, board):
+    answer = 0
+    dir = [(1, 0), (1, 1), (0, 1)]
+    
+    arr = []
+    for elem in board:
+        arr.append(list(elem))
+        
+    cancel = 1
+    while cancel > 0:
+        cancel_pos = set()
+        
+        for i in range(m-1):
+            for j in range(n-1):
+                now = arr[i][j]
+                if now == "X":
+                    continue
+                temp = [(j, i)]
+                for dx, dy in dir:
+                    if now == arr[i+dy][j+dx]:
+                        temp.append((j+dx, i+dy))
+                if len(temp) == 4:
+                    cancel_pos.update(temp)
+
+        for x, y in list(cancel_pos): # cancel
+            arr[y][x] = "X"
+            
+        for i in range(m-1, -1, -1): # drop
+            for j in range(n):
+                if arr[i][j] == "X":
+                    ti = i
+                    while ti > 0:
+                        ti -= 1
+                        if arr[ti][j] != "X":
+                            arr[ti][j], arr[i][j] = arr[i][j], arr[ti][j]
+                            break
+        
+        cancel = len(cancel_pos)
+        answer += cancel
+        
+    
+    return answer
+
