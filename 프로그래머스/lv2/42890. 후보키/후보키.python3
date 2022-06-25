@@ -1,0 +1,22 @@
+from itertools import combinations as cb
+
+def solution(relation):
+    r, c = len(relation), len(relation[0])
+    comb = []
+    for i in range(1, c+1):
+        comb.extend(cb(range(c), i))
+    
+    candi = []
+    for idxs in comb:
+        tmp = [tuple([info[idx] for idx in idxs]) for info in relation]
+        if len(set(tmp)) == r:
+            candi.append(idxs)
+
+    answer = set(candi)
+    n = len(answer)
+    for i in range(n):
+        for j in range(i+1, n):
+            if len(candi[i]) == len(set(candi[i]) & set(candi[j])):
+                answer.discard(candi[j])
+
+    return len(answer)
