@@ -1,0 +1,48 @@
+from collections import defaultdict
+from bisect import bisect_left as bl
+
+def solution(info, query):
+    answer = []
+    
+    info_dic = defaultdict(list)
+    
+    ordered = []
+    for infom in info:
+        lang, depart, year, food, score = infom.split()
+        ordered.append([lang, depart, year, food, int(score)])
+    ordered.sort(key=lambda x: x[-1])
+    
+    for info in ordered:
+        lang, depart, year, food, score = info
+        for i in range(2):
+            for j  in range(2):
+                for p in range(2):
+                    for q in range(2):
+                        l, d, y, f = lang, depart, year, food
+                        if i == 1: l = "-"
+                        if j == 1: d = "-"
+                        if p == 1: y = "-"
+                        if q == 1: f = "-"
+                        info_dic[(l,d,y,f)].append(score)
+      
+    for q in query:
+        temp = list(q.split())
+        score_cut = temp[-1]
+        res = info_dic[(temp[0],temp[2],temp[4],temp[6])]
+        cnt = bl(res, int(score_cut))
+        answer.append(len(res)-cnt)
+    
+    #print(bisect([2, 3, 4, 4, 5, 5, 6, 6, 6, 7, 8], 5))
+    return answer
+
+# def bisect(arr, x):
+#     l, r = 0, len(arr)-1
+#     idx = 0
+#     while l <= r:
+#         mid = (l+r)//2
+#         if arr[mid] >= int(x):
+#             idx = mid
+#             r = mid-1
+#         else:
+#             l = mid+1
+#     return len(arr) - idx
