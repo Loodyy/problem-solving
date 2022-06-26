@@ -1,0 +1,28 @@
+cov = {"10": "A", "11": "B", "12": "C", "13": "D", "14": "E", "15": "F"}
+
+def solution(n, t, m, p):
+    answer = ''
+    
+    total, num = "", 0
+    while len(total) < m*t:
+        total += conv_n(num, n)
+        num += 1
+    
+    for i in range(p-1, len(total), m):
+        answer += total[i]
+        if len(answer) == t:
+            break
+    return answer
+
+def conv_n(x, n):
+    res = ""
+    if x == 0:
+        return "0"
+    while x > 0:
+        temp = str(x%n)
+        if int(temp) >= 10:
+            temp = cov[temp]
+        res += temp
+        x //= n
+    return res[::-1]
+# '0' 1 '1'0 '1' 1 '1' 00101110111
