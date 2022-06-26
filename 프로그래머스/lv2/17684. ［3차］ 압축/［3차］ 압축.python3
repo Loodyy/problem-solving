@@ -1,0 +1,17 @@
+def solution(msg):
+    answer = []
+    word = {chr(i+64): i for i in range(1, 27)}
+    n = len(msg)    
+    
+    idx = 0
+    word_idx = 27
+    while idx < n:
+        for j in range(n, idx, -1):
+            if msg[idx:j] in word:
+                answer.append(word[msg[idx:j]])
+                word[msg[idx:j+1]] = word_idx
+                word_idx += 1
+                idx = j
+                break
+            
+    return answer
