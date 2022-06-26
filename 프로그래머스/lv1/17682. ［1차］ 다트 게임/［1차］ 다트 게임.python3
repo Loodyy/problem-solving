@@ -1,0 +1,40 @@
+def solution(dartResult):
+    answer = 0
+    n = len(dartResult)
+    score_board = []
+    
+    idx = 0
+    while idx < n:
+        score, mul, luck, tidx = "", "", "", idx
+
+        score = dartResult[tidx] # score
+        tidx += 1
+        if tidx < n and dartResult[tidx].isdigit():
+            score += dartResult[tidx]
+            tidx += 1
+            
+        mul = dartResult[tidx] # S,D,T
+        tidx += 1
+        
+        if tidx < n and not dartResult[tidx].isdigit(): # lucky
+            luck = dartResult[tidx]
+            tidx += 1
+
+        mulv = 1 # calc
+        if mul == "D": mulv = 2
+        elif mul == "T": mulv = 3
+        res = int(score)**mulv
+        score_board.append(res)
+        
+        if luck == "*":
+            score_board[-1] *= 2
+            if len(score_board) > 1:
+                score_board[-2] *= 2
+        elif luck == "#":
+            score_board[-1] *= -1
+        
+        idx = tidx
+        
+    print(score_board)
+    answer = sum(score_board)
+    return answer
