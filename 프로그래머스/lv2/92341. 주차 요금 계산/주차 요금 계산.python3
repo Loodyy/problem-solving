@@ -1,0 +1,41 @@
+from collections import defaultdict
+
+def solution(fees, records):
+    answer = []
+    
+    
+    car_dic = defaultdict(list)
+    for record in records:
+        t, number, _ = record.split()
+        car_dic[number].append(t)
+    
+    result = []
+    for info in list(car_dic.items()):
+        num, time = info[0], calc_time(info[1])
+        result.append((num, calc_fee(fees, time)))
+    result.sort()
+    
+    for res in result:
+        answer.append(res[1])
+        
+    return answer
+
+def calc_fee(fees, time):
+    res = 0
+    res += fees[1]
+    if time > fees[0]:
+        exceed = time-fees[0]
+        res += (exceed//fees[2]) * fees[3]
+        if exceed%fees[2] > 0:
+            res += fees[3]
+    return res
+
+def calc_time(times):
+    if len(times)%2 == 1:
+        times.append("23:59")
+    res = 0
+    for i in range(0, len(times), 2):
+        intime = list(map(int, times[i].split(":")))
+        outtime = list(map(int, times[i+1].split(":")))
+        res += (outtime[0]*60+outtime[1]) - (intime[0]*60+intime[1])
+    return res
