@@ -1,0 +1,22 @@
+def solution(n, arr1, arr2):
+    answer = []
+    for i in range(n):
+        tmp = ""
+        fbin, sbin = dig2bin(arr1[i], n), dig2bin(arr2[i], n)
+        for j in range(n):
+            if fbin[j] == "0" and sbin[j] == "0":
+                tmp += " "
+            else:
+                tmp += "#"
+        answer.append(tmp)
+    return answer
+
+def dig2bin(x, n):
+    temp = "" # 1001
+    while x > 0:
+        temp += str(x%2)
+        x //= 2
+    temp += "0"*(n-len(temp))
+    res = list(temp)
+    return res[::-1]
+    
