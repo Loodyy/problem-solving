@@ -1,0 +1,9 @@
+def solution(brown, yellow):
+    answer = []
+    
+    for i in range(1, brown+yellow+1):
+        if (brown+yellow)%i == 0:
+            row, col = i, (brown+yellow)//i
+            if (row-2)*(col-2) == yellow:
+                return [col, row]
+    return answer
