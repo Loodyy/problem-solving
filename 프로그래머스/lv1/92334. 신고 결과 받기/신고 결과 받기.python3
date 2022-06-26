@@ -1,25 +1,20 @@
 def solution(id_list, report, k):
     
-    report = set(report)
-    report_dic = {}
-    reportor = {}
-    for repo in list(report):
-        user, re = repo.split()
-        if report_dic.get(re):
-            report_dic[re].append(user)
-        else:
-            report_dic[re] = [user]
-            
-    res = {}
-    for reported, repoter in list(report_dic.items()):
-        if len(repoter) >= k:
-            for r in repoter:
-                if res.get(r):
-                    res[r] += 1
-                else: res[r] = 1
+    result = {id: 0 for id in id_list}
+    reported_dic = {id: 0 for id in id_list}
+    
+    report = list(set(report))
+    
+    for re in report:
+        _, reported = re.split()
+        reported_dic[reported] += 1
+        
+    for re in report:
+        reporter, reported = re.split()
+        if reported_dic[reported] >= k:
+            result[reporter] += 1
+    
     answer = []
     for id in id_list:
-        if res.get(id):
-            answer.append(res[id])
-        else: answer.append(0)
+        answer.append(result[id])
     return answer
