@@ -1,0 +1,27 @@
+def solution(files): # 1000
+    answer = []
+    idxs = []
+    for i, file in enumerate(files):
+        h, n, t = file_parse(file)
+        idxs.append((h, n, t, i))
+    idxs.sort(key=lambda x: (x[0].lower(), x[1]))
+    for idx in idxs:
+        answer.append(files[idx[3]])
+    return answer
+
+def file_parse(file):
+    head, numidx = "", 0
+    for i, x in enumerate(file):
+        if x.isdigit():
+            numidx = i
+            break
+        head += x
+    num, tailidx = "", 0
+    if tailidx < len(file):
+        for j in range(numidx, len(file)):
+            if not file[j].isdigit():
+                tailidx = j
+                break
+            num += file[j]
+    
+    return head, int(num), file[tailidx:]
