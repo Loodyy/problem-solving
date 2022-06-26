@@ -1,0 +1,44 @@
+def solution(m, musicinfos): # m 1~1439, music <= 100
+    answer = 0
+    
+    m = replace_song(m)
+    candi = []
+    for idx, music in enumerate(musicinfos):
+        infos = list(music.split(","))
+        
+        time = time_calc(infos[0], infos[1])
+        sub_song = replace_song(infos[3])
+        full_song = sub2full(sub_song, time, len(m))
+        
+        if m in full_song:
+            candi.append((len(full_song), idx,infos[2]))
+            
+    
+    if len(candi) > 0:
+        candi.sort(key=lambda x: (-x[0], x[1]))
+        return candi[0][2]
+    else:
+        return "(None)"
+
+def replace_song(string):
+    pair = [["C#", "c"], ["D#", "d"], ["F#", "f"], ["G#", "g"], ["A#", "a"]]
+    for pre, post in pair:
+        string = string.replace(pre, post)
+    return string
+
+def time_calc(start, end):
+    e = list(map(int, end.split(":")))
+    s = list(map(int, start.split(":")))
+    return (e[0]*60+e[1]) - (s[0]*60+s[1]) 
+
+def sub2full(sub_song, time, listen_leng):
+    res = ""
+    leng = len(sub_song)
+    if time <= leng:
+        res = sub_song[:time]
+    else:
+        div, mod = time//leng, time%leng
+        for _ in range(div):
+            res += sub_song
+        res += sub_song[:mod]
+    return res
