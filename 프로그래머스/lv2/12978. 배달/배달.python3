@@ -1,0 +1,28 @@
+import heapq
+
+def solution(N, road, K):
+    answer = 0
+    distance = [1e9] * (N+1)
+    distance[1] = 0
+    graph = [[] for _ in range(N+1)]
+    for a, b, cost in road:
+        graph[a].append((b, cost))
+        graph[b].append((a, cost))
+    
+    q = []
+    heapq.heappush(q, (0, 1))
+    while q:
+        dist, now = heapq.heappop(q)
+        if dist > distance[now]:
+            continue
+        for info in graph[now]:
+            next, cost = info[0], dist+info[1]
+            if cost < distance[next]:
+                distance[next] = cost
+                heapq.heappush(q, (cost, next))
+    
+    print(distance)
+    for x in distance:
+        if x <= K:
+            answer += 1
+    return answer
