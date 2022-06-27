@@ -1,0 +1,14 @@
+def solution(s, n):
+    answer = ''
+    
+    upper = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    lower = list("abcdefghijklmnopqrstuvwxyz")
+    for x in s:
+        if x.isalpha():
+            if x.isupper():
+                answer += upper[(ord(x)-65+n)%26] 
+            else:
+                answer += lower[(ord(x)-97+n)%26] 
+        else:
+            answer += x
+    return answer
