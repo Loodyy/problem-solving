@@ -1,0 +1,29 @@
+def solution(numbers):
+    answer = []
+    for num in numbers:
+        if num%2 == 0:
+            answer.append(num+1)
+        else:
+            tar = list(dig2bin(num))
+            for i in range(len(tar)):
+                if tar[i] == "0":
+                    tar[i] = "1"
+                    tar[i-1] = "0"
+                    break
+            answer.append(bin2dig("".join(tar)))
+    return answer
+            
+def dig2bin(digit):
+    res = ""
+    while digit > 0:
+        res += str(digit%2)
+        digit //= 2
+    return res+"0"
+
+def bin2dig(binary):
+    res = 0
+    mul = 1
+    for x in binary:
+        res += int(x)*mul
+        mul *= 2
+    return res
