@@ -1,15 +1,13 @@
 def solution(number, k):
-    answer = ''
+    answer = [number[0]]
     
-    idx, cnt = 0, 0
-    while idx < len(number)-1 and cnt < k:
-        if int(number[idx]) < int(number[idx+1]):
-            number = number[:idx]+number[idx+1:]
+    cnt = 0
+    for x in number[1:]:
+        while answer and int(x) > int(answer[-1]) and cnt < k:
+            answer.pop()
             cnt += 1
-            idx = max(0, idx-1)
-        else:
-            idx += 1
+        answer.append(x)
     
     if cnt < k:
-        number = number[:-(k-cnt)]
-    return number
+        answer = answer[:-(k-cnt)]
+    return "".join(answer)
