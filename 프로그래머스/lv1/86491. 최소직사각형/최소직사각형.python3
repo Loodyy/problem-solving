@@ -1,0 +1,10 @@
+def solution(sizes):
+    n = len(sizes)
+    maxW = maxH = 0
+    for a, b in sizes:
+        if a < b: 
+            a, b = b, a
+        maxW = max(maxW, a)
+        maxH = max(maxH, b)
+        
+    return maxW*maxH
