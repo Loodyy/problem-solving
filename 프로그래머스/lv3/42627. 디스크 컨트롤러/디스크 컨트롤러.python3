@@ -4,24 +4,21 @@ def solution(jobs):
     answer = 0
     n = len(jobs)
     
-    start, now, cnt = -1, 0, 0
     q = []
+    start, cnt, now = -1, 0, 0
     
     while cnt < n:
-        
-        for s, c in jobs: 
+        for s, c in jobs:
             if start < s <= now:
                 heapq.heappush(q, (c, s))
-                
+        
         if q:
             c, s = heapq.heappop(q)
             start = now
             now += c
-            answer += now-s
+            answer += (now - s)
             cnt += 1
         else:
             now += 1
-                
-    return answer//n
     
-    
+    return answer//n 
