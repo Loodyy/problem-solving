@@ -1,0 +1,33 @@
+from collections import deque
+
+def solution(s):
+    answer = 0
+    q = deque(s)
+
+    for _ in range(len(s)):
+        if valid_check(q):
+            answer += 1
+        q.rotate(1)
+    return answer
+    
+def valid_check(arr):
+    temp = []
+    for x in arr:
+        if x in {"{", "(", "["}:
+            temp.append(x)
+            continue
+        if len(temp):
+            if x == "}" and temp[-1] == "{":
+                temp.pop()
+            elif x == ")" and temp[-1] == "(":
+                temp.pop()
+            elif x == "]" and temp[-1] == "[":
+                temp.pop()
+            else:
+                return False
+        else:
+            return False
+    if len(temp) == 0:
+        return True
+    else:
+        return False
