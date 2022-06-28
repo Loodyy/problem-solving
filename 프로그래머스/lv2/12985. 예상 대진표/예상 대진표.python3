@@ -1,0 +1,21 @@
+import math
+res = 0
+
+def solution(n,a,b):
+    answer = 0
+    if a > b: a, b = b, a
+    
+    dfs(0, n, a, b, math.log2(n)-res)
+    answer = res
+    return answer
+
+def dfs(s, e, a, b, cnt):
+    global res
+    if cnt < 0:
+        return
+
+    if (s < a <= (e+s)//2) and ((e+s)//2 < b <= e):
+        res = cnt
+        return
+    dfs(s, (e+s)//2, a, b, cnt-1)
+    dfs((e+s)//2, e, a, b, cnt-1)
