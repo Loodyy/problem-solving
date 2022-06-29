@@ -1,0 +1,22 @@
+from collections import defaultdict
+
+def solution(n, results):
+    answer = 0
+    if n == 1:
+        return 1
+    win, lose = defaultdict(set), defaultdict(set)
+    for w, l in results:
+        win[w].add(l)
+        lose[l].add(w)
+    
+    for _ in range(3):
+        for w, l in results:
+            for elem in list(win[w]):
+                win[w].update(win[elem])
+            for elem in list(lose[l]):
+                lose[l].update(lose[elem])
+                
+    for i in range(1, n+1):
+        if len(win[i])+len(lose[i]) == n-1:
+            answer += 1
+    return answer
