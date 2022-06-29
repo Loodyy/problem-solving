@@ -1,0 +1,18 @@
+def solution(s):
+    
+    target, cnt, cut_zero = -1, 0, 0
+    while s != "1":
+        comp = len(s)
+        s = s.replace("0", "")
+        cut_zero += comp - len(s)
+        s = dec2bin(len(s))
+        cnt += 1
+    
+    return [cnt, cut_zero]
+
+def dec2bin(x):
+    res = ""
+    while x > 0:
+        res += str(x%2)
+        x //= 2
+    return res[::-1]
