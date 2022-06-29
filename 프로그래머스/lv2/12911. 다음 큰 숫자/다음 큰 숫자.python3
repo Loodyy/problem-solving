@@ -1,0 +1,12 @@
+def solution(n):
+    comp = dig2bin(n).count("1")
+    for i in range(n+1, int(1e6)+1):
+        if comp == dig2bin(i).count("1"):
+            return i
+
+def dig2bin(x):
+    res = ""
+    while x > 0:
+        res += str(x%2)
+        x //= 2
+    return res[::-1]
