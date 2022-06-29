@@ -1,0 +1,25 @@
+res = 0
+
+def solution(k, dungeons):
+    n = len(dungeons)
+    
+    visited = [False] * n
+    dfs(k, n, dungeons, 0, visited)
+    return res
+
+def dfs(now, n, dungeons, cnt, visited):
+    global res
+    
+    if visited.count(True) == n:
+        res = max(res, cnt)
+        return
+    
+    for i in range(n):
+        limit, use = dungeons[i]
+        if visited[i] == False:
+            visited[i] = True
+            if limit <= now:
+                dfs(now-use, n, dungeons, cnt+1, visited)
+            else:
+                dfs(now, n, dungeons, cnt, visited)
+            visited[i] = False
