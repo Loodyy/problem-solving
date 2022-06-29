@@ -1,0 +1,16 @@
+answer = []
+
+def solution(n):
+    
+    dfs(1, 3, n)
+    return answer
+
+def dfs(s, e, n):
+    global answer
+    
+    if n == 1:
+        answer.append([s, e])
+        return
+    dfs(s, 6-s-e, n-1)
+    answer.append([s, e])
+    dfs(6-s-e, e, n-1)
