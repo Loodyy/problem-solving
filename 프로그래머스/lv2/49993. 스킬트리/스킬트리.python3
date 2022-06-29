@@ -1,0 +1,17 @@
+def solution(skill, skill_trees):
+    answer = len(skill_trees)
+    
+    order_s = set()
+    order_s.update(skill)
+    
+    for tree in skill_trees:
+        temp = list(skill[::-1])
+        for s in tree:
+            if s in order_s:
+                if temp[-1] == s:
+                    temp.pop()
+                else:
+                    answer -= 1
+                    break
+            
+    return answer
