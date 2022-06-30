@@ -1,0 +1,24 @@
+import heapq
+
+def solution(operations):
+    answer = []
+    fq, sq = [], [] # min, max
+    for oper in operations:
+        cmd, num = oper.split()
+        if cmd == "I":
+            heapq.heappush(fq, int(num))
+            heapq.heappush(sq, -int(num))
+        else:
+            if len(fq):
+                if num == "1":
+                    maxV = -heapq.heappop(sq)
+                    fq.remove(maxV)
+                else:
+                    minV = heapq.heappop(fq)
+                    sq.remove(-minV)
+    
+    maxV, minV = 0, 0
+    if len(fq):
+        maxV, minV = -sq[0], fq[0]
+        
+    return [maxV, minV]
