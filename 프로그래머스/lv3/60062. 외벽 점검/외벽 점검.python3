@@ -1,0 +1,27 @@
+def solution(n, weak, dist):
+    answer = 0
+    leng, fleng = len(weak), len(dist)
+    dist.sort(reverse=True)
+    
+    repair_list = [set()]
+    cnt = 0
+    for distance in dist:
+        repair = []
+        cnt += 1
+        
+        for i, start in enumerate(weak):
+            ends = weak[i:]+[n+w for w in weak[:i]]
+            can = [end%n for end in ends if end-start <= distance]
+            repair.append(set(can))
+            
+        temp = set()
+        for re in repair: # 새 친구가 고칠 수 있는 곳 set
+            for elem in repair_list: # 기존에 고친 곳 set
+                new = re | set(elem)
+                if len(new) == leng:
+                    return cnt
+                temp.add(tuple(new)) 
+                # 기존 것들과 새 친구의 합집합 set 모두 저장
+        repair_list = temp 
+ 
+    return -1
