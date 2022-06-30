@@ -1,0 +1,58 @@
+import re
+
+def solution(word, pages):
+    score = [[0, 0, -1] for _ in range(len(pages))] # 기본, 링크, idx
+    url_dic = {}
+    ext_url_dic = {}
+    for idx, page in enumerate(pages):
+        temp = page.split()
+        url = re.search('<meta property="og:url" content="(\S+)"', page).group(1)
+        url_dic[url] = idx
+        normal = calc_normal(word, temp)
+        
+        exter_url = re.findall('<a href="(https://[\S]*)"', page)
+        link_cnt = len(exter_url)
+        
+        #link_cnt = calc_link(temp)
+        if link_cnt == 0:
+            link_cnt += 1
+        score[idx][0], score[idx][1], score[idx][2] = normal, normal/link_cnt, idx
+        
+        ext_url_dic[url] = []
+        for ex in exter_url:
+            ext_url_dic[url].append(ex)
+
+    for url, ext in ext_url_dic.items():
+        idx = url_dic[url]
+        plus = score[idx][1]
+        for ex in ext:
+            if ex in url_dic:
+                score[url_dic[ex]][0] += plus
+    
+    score.sort(key=lambda x: (-x[0], x[2]))
+    return score[0][2]
+
+def calc_ext_url(temp):
+    res = []
+    for elem in temp:
+        if "href=\"https" in elem:
+            t = elem.replace('"', ' ')
+            res.append(list(t.split())[1])
+    return res
+
+def calc_link(temp):
+    cnt = 0
+    for elem in temp:
+        if "href=\"https" in elem:
+            cnt += 1
+    return cnt
+
+def calc_normal(word, temp):
+    cnt = 0
+    for elem in temp:
+        elem = elem.lower()
+        for j in range(len(elem)):
+            if not elem.lower()[j].isalpha():
+                elem = elem.replace(elem[j], " ")
+        cnt += list(elem.split()).count(word.lower())
+    return cnt
