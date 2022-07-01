@@ -1,0 +1,42 @@
+dir = [(0, 1), (1, 0)]
+
+def solution(n, build_frame):
+    built = set()
+    for x, y, d, cancel in build_frame:
+        dx, dy = dir[d]
+        
+        if cancel == 1: # 생성
+            if is_valid(x, y, d, built):
+                built.update([(x, y, d, "s"), (x+dx, y+dy, d, "e")])
+        else: # 제거
+            temp = set()
+            temp.update(built)
+            temp -= {(x, y, d, "s"), (x+dx, y+dy, d, "e")}
+
+            valid = True
+            for tx, ty, d, point in list(temp):
+                if point == "e":
+                    continue
+                if not is_valid(tx, ty, d, temp):
+                    valid = False
+                    break
+            if valid:
+                built = temp
+            
+
+    
+    result = [point[:-1] for point in list(built) if point[3] == "s"]
+    result.sort(key=lambda x: (x[0], x[1], x[2]))
+    return result
+
+def is_valid(x, y, d, built):
+    dx, dy = dir[d]
+    if d == 0: # 기둥
+        if y == 0 or (x, y, 1, "s") in built\
+            or (x, y, 1, "e") in built or (x, y, 0, "e") in built:
+            return True
+    else: # 보
+        if ((x, y, 0, "e") in built or (x+dx, y+dy, 0, "e") in built)\
+            or ((x, y, 1, "e") in built and (x+dx, y+dy, 1, "s") in built):
+            return True 
+    return False
