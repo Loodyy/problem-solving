@@ -1,0 +1,12 @@
+def solution(s):
+    s = " "+s
+    answer = ""
+    for i, char in enumerate(s):
+        if char == " ":
+            answer += char
+        else:
+            if s[i-1] == " ":
+                answer += char.upper()
+            else:
+                answer += char.lower()
+    return answer[1:]
