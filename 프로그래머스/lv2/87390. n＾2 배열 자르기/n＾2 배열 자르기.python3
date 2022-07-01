@@ -1,0 +1,8 @@
+def solution(n, left, right):
+    answer = []
+    
+    for i in range(left//n+1, right//n+2):
+        answer.extend([i] * i)
+        answer.extend(list(range(i+1, n+1)))
+    
+    return answer[left%n:left%n + right-left + 1]
