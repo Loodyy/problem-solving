@@ -1,0 +1,24 @@
+def solution(n, wires):
+    minV = int(1e9)
+    
+    for i in range(len(wires)): # cut wire
+        fir, sec = set(), set()
+        arr = []
+        for j in range(len(wires)):
+            if i == j:
+                fir.add(wires[j][0])
+                sec.add(wires[j][1])
+            else:
+                arr.append(wires[j])
+        
+        while len(fir)+len(sec) != n:
+            for k in range(len(arr)):
+                a, b = arr[k]
+                if a in fir or b in fir:
+                    fir.update(arr[k])
+                elif a in sec or b in sec:
+                    sec.update(arr[k])
+
+        minV = min(minV, abs(len(fir)-len(sec)))
+                
+    return minV
