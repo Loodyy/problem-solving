@@ -1,0 +1,30 @@
+res = int(1e9)
+
+def solution(begin, target, words):
+    if target not in words:
+        return 0
+    
+    dfs(begin, target, words, 0, [False] * len(words))
+    return res
+    
+def dfs(now, target, words, cnt, visited):
+    global res
+    
+    if now == target:
+        res = min(res, cnt)
+        return
+    
+    for i in range(len(words)):
+        if visited[i] == False and is_valid(now, words[i]):
+            visited[i] = True
+            dfs(words[i], target, words, cnt+1, visited)
+            visited[i] = False
+        
+def is_valid(now, next):
+    cnt = 0
+    for i in range(len(now)):
+        if now[i] != next[i]:
+            cnt += 1
+    if cnt == 1:
+        return True
+    return False
