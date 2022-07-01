@@ -1,0 +1,12 @@
+def solution(n):
+    
+    cnt = 0
+    for i in range(1, n+1):
+        now, sumV = i, i
+        while sumV < n:
+            now += 1
+            sumV += now
+        if sumV == n:
+            cnt += 1
+
+    return cnt
