@@ -1,0 +1,10 @@
+def solution(word):
+    answer = 0
+    comp = "A"*len(word)
+
+    alpa = ["A", "E", "I", "O", "U"]
+    plus = [781, 156, 31, 6 ,1]
+    for i in range(len(word)):
+        answer += plus[i]*(alpa.index(word[i])-0)
+        
+    return answer + len(word)
