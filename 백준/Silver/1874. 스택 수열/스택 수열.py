@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def solve():
     now = 1
     for _ in range(n):
