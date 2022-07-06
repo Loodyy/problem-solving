@@ -1,27 +1,21 @@
 def solve(string):
-    st = []
+    temp = ""
     for char in string:
-        if char in "{([":
-            st.append(char)
-        elif char in "})]":
-            if len(st) == 0:
-                return False
-            if st[-1] == "(" and char != ")":
-                return False
-            if st[-1] == "{" and char != "}":
-                return False
-            if st[-1] == "[" and char != "]":
-                return False
-            st.pop()
+        if char in "{}()[]":
+            temp += char
     
-    if len(st) == 0:
-        return True
+    while "{}" in temp or "[]" in temp or "()" in temp:
+        temp = temp.replace("{}", "")
+        temp = temp.replace("[]", "")
+        temp = temp.replace("()", "")
+    
+    if temp == "":
+        print("yes")
+    else:
+        print("no")
 
 while True:
     string = input()
     if string == ".":
         break
-    if solve(string):
-        print("yes")
-    else:
-        print("no")
+    solve(string)
