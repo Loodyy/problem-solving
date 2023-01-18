@@ -14,11 +14,11 @@ def solve():
                     pnum += arr[i][j]
                     num += 1
                     union = []
-                    q = deque([[j, i]])
+                    q = [[j, i]]
                     visited[i][j] = True
                     union.append((j, i))
                     while q:
-                        x, y = q.popleft()
+                        x, y = q.pop(0)
                         for d in dir:
                             dx, dy = d[0], d[1]
                             if 0 <= x+dx < n and 0 <= y+dy < n and not visited[y+dy][x+dx]:
