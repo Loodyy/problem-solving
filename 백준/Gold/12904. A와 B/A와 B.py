@@ -1,22 +1,18 @@
-s = input()
-t = input()
+def main() -> None:
+    a, b = input(), input()
+    res = solve(a, b)
+    print(res)
+    return
 
-def aa(arr):
-    arr = arr[:len(arr)-1]
-    return arr
+def solve(a, b) -> int:
+    now = list(b)
+    while len(now) > len(a):
+        if now[-1] == "A":
+            now.pop()
+        elif now[-1] == "B":
+            now.pop()
+            now = now[::-1]
+        
+    return 1 if a == "".join(now) else 0
 
-def bb(arr):
-    arr = arr[:len(arr)-1]
-    arr = arr[::-1]
-    return arr
-
-result = 0
-while len(s) != len(t):
-    if t[len(t)-1] == "A":
-        t = aa(t)
-    else:
-        t = bb(t)
-    if s == t:
-        result = 1
-
-print(result) 
+main()
