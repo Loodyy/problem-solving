@@ -1,11 +1,25 @@
-n, m = int(input()), int(input())
+def main():
+    n = int(input())
+    maxLen = int(input())
+    target = input()
+    cnt = solve(n, maxLen, target)
+    print(cnt)
 
-targ = input()
-comp = "I" + "OI"*n
+def solve(n, maxLen, target) -> int:
+    cnt = 0
+    comp: str = "I" + "OI" * n
+    for i in range(maxLen):
+        if i + len(comp) > maxLen:
+            break
+            
+        isMatch = True
+        for j, x in enumerate(comp):                
+            if i + j < maxLen and x != target[i + j]:
+                isMatch = False
+                break
 
-cnt = 0
-for i in range(m):
-    if comp == targ[i:i+len(comp)]:
-        cnt += 1
+        cnt += bool(isMatch)
+            
+    return cnt
 
-print(cnt)
+main() 
