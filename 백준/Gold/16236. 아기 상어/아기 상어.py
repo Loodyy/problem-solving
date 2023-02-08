@@ -1,6 +1,6 @@
 from collections import deque
 
-def checkClosestFish(shark, board, fishs: dict):
+def checkClosestFish(shark, board):
     sx, sy, sw = shark
     n = len(board)
     catched = []
@@ -14,7 +14,7 @@ def checkClosestFish(shark, board, fishs: dict):
             tx, ty = x + dx, y + dy
             if not isRange(tx, ty, len(board)) or visited[ty][tx] != 0:
                 continue
-            fishWeight = fishs[(tx, ty)] if (tx, ty) in fishs else 0
+            fishWeight = board[ty][tx]
             if fishWeight > sw:
                 continue
             elif fishWeight == sw or fishWeight == 0:
@@ -36,7 +36,6 @@ dir = [(-1, 0), (0, -1), (1, 0), (0, 1)]
 n = int(input())
 shark = [0, 0, 0]
 eatCnt = 0
-fishs = {}
 board = []
 for y in range(n):
     temp = list(map(int, input().split()))
@@ -44,21 +43,18 @@ for y in range(n):
         curr = temp[x]
         if curr == 9:
             shark = [x, y, 2]
-        else:
-            fishs[(x, y)] = curr
     board.append(temp)
 board[shark[1]][shark[0]] = 0
 
 time = 0
 while True:
-    res = checkClosestFish(shark, board, fishs)
+    res = checkClosestFish(shark, board)
     if res == -1:
         break
     sx, sy, sw = shark
     nx, ny, t = res
     board[ny][nx] = 0
     shark[0], shark[1] = nx, ny
-    fishs.pop((nx, ny))
     time += t + 1
     
     eatCnt += 1
