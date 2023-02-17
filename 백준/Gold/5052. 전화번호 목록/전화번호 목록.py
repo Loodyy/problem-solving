@@ -3,7 +3,7 @@ input = sys.stdin.readline
 
 def isValid(n, phones: list) -> bool:
     maxLen = 10
-    phones.sort(key = lambda x: (x + "0" * (maxLen - len(x))))
+    phones.sort()
     for i in range(1, len(phones)):
         prev, curr = phones[i - 1], phones[i]
         if prev == curr[:len(prev)]:
