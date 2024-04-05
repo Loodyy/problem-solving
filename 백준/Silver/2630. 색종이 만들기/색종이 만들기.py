@@ -1,23 +1,19 @@
-def solve(x, y, n, paper):
-    pivot = paper[y][x]
-    if n == 1:
-        cnt[pivot] += 1
-        return
+N = int(input())
+PAPER = [list(map(int, input().split())) for _ in range(N)]
 
-    for i in range(n):
-        for j in range(n):
-            if paper[y+i][x+j] != pivot:
-                
-                for p in range(0, n, n//2):
-                    for q in range(0, n, n//2):
-                        solve(x+p, y+q, n//2, paper)
+answer = [0] * 2
+def cut_paper(x, y, n):
+    global answer
+    color = PAPER[x][y]
+    for i in range(x, x + n):
+        for j in range(y, y + n):
+            if color != PAPER[i][j]:
+                cut_paper(x, y, n // 2)
+                cut_paper(x, y + n // 2, n // 2)
+                cut_paper(x + n // 2, y, n // 2)
+                cut_paper(x + n // 2, y + n // 2, n // 2)
                 return
-                
-    cnt[pivot] += 1
+    answer[color] += 1
 
-n = int(input())
-paper = [list(map(int, input().split())) for _ in range(n)]
-cnt = [0] * 2
-solve(0, 0, n, paper)
-
-[print(c) for c in cnt]
+cut_paper(0, 0, N)
+print(*answer, sep='\n')
