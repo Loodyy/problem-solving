@@ -1,7 +1,4 @@
-MAX = 10_000_000
-A = [0] * 2 * MAX
 input()
-for num in map(int, input().split()):
-    A[num+MAX] = 1
+num_set = set(map(int, input().split()))
 input()
-print(*map(lambda x: A[int(x)+MAX], input().split()))
+print(*map(lambda x: 1 if int(x) in num_set else 0, input().split()))
