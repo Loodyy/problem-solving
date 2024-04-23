@@ -41,15 +41,15 @@ def solve():
     N, S = int(input()), input()
     ans = 0
 
-    l, r = 0, N
-    while l + 1 < r:
+    l, r = 1, N
+    while l <= r:
         length = (l+r) // 2
 
         if is_conflict(N, S, length):
             ans = max(ans, length)
-            l = length
+            l = length + 1
         else:
-            r = length
+            r = length - 1
     return ans
 
 print(solve())
