@@ -16,8 +16,10 @@ def is_match(arr):
                 o_cnt += 1
                 if z_cnt == 0:
                     return False
-        if z_cnt > 0 and o_cnt > 0:
+        if z_cnt and o_cnt:
             return True
+        else:
+            return False
     else:
         return False
 
