@@ -1,0 +1,1 @@
+print("".join(filter(str.isupper, input())))
